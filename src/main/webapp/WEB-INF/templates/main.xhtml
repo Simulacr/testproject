@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <h:outputStylesheet library="css" name="template.css"/>
+    <h:outputScript library="js" name="common.js"/>
+</h:head>
+<f:view>
+    <p:layout fullPage="true">
+        <p:layoutUnit position="west" size="250">
+            <h:form>
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="#{locution['Search']}"/>
+                    <p:inputText value="#{search.searchString}"/>
+                    <h:panelGrid columns="2">
+                        <p:commandButton actionListener="#{search.searching}" value="#{locution['Direct']}" update="content"/>
+                        <p:commandButton actionListener="#{search.searchingAndGo}" value="#{locution['Look_for']}" update="content"/>
+                    </h:panelGrid>
+                </h:panelGrid>
+
+                <p:menu>
+                    <p:submenu label="#{locution['Navigation']}">
+                        <p:menuitem value="#{locution['Home_page']}" update="content"
+                                    actionListener="#{navigation.setCurrentPage('homePage')}"/>
+                        <p:menuitem value="#{locution['Random_page']}" update="content"
+                                    actionListener="#{navigation.setCurrentPage('randomPage')}"/>
+                    </p:submenu>
+                </p:menu>
+            </h:form>
+        </p:layoutUnit>
+        <p:layoutUnit position="north" size="50">
+
+        </p:layoutUnit>
+        <p:layoutUnit position="center" id="center">
+            <ui:insert name="content">!!!!EMPTY CONTENT!!!!!</ui:insert>
+        </p:layoutUnit>
+    </p:layout>
+</f:view>
+</html>

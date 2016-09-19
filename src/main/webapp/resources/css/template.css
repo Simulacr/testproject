@@ -1,0 +1,13 @@
+body {
+    background: #fff url("#{resource['image/bg-top.png']}") 0 0 repeat-x;
+}
+.ui-layout-pane-west, .ui-layout-pane-north, .ui-layout-unit-content {
+    border: inherit;
+    background: inherit;
+}
+.pageDetails {
+    font-size: 14px !important;
+}
+.pageLink {
+    color: blue !important;
+}
