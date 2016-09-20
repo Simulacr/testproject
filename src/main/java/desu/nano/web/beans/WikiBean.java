@@ -78,19 +78,18 @@ public class WikiBean implements Serializable {
         navigationBean.setCurrentPage("homePage");
     }
 
-    public void navigateToArticle(String title) throws UnsupportedEncodingException {
-        String response = performAction(Action.query.getQuery(), Format.json.getQuery(),
-                "prop=extracts", "titles="+ URLEncoder.encode(title, "UTF-8"));
+    public String navigateToArticle(String title) throws UnsupportedEncodingException {
+        String response = performAction(Action.parse.getQuery(), Format.json.getQuery(), "section=0",
+                "prop=text", "page="+ URLEncoder.encode(title, "UTF-8"));
         Map<String, Object> jsonMap = new Gson().fromJson(response, Map.class);
         navigationBean.setCurrentPage("article");
-        Map<String, Object> pages = extract(jsonMap, "query", "pages");
-        if(pages.size() == 0)
+        String content = this.<Map<String, Object>>extract(jsonMap, "parse", "text").get("*").toString();
+        if(response == null || response.isEmpty())
             currentArticle = Article.empty();
         else {
-            Map<String, Object> articleInfo = (Map<String, Object>)pages.values().stream().findFirst().get();
-            currentArticle = new Article(articleInfo.get("title").toString(), articleInfo.get("extract").toString(),
-                    new Double(articleInfo.get("pageid").toString()).longValue());
+            currentArticle = new Article(title, content, 0);
         }
+        return "article";
     }
 
 

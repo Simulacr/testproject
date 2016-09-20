@@ -9,8 +9,13 @@
     <ui:composition template="WEB-INF/templates/main.xhtml">
         <ui:define name="content">
             <h:panelGrid id="content">
-                <c:if test="#{navigation.currentPage != null}">
-                    <ui:include src="WEB-INF/pages/#{navigation.currentPage}.xhtml"/>
+                <c:if test="#{param['page'] != null}">
+                    <ui:include src="WEB-INF/pages/#{wiki.navigateToArticle(param['page'])}.xhtml"/>
+                </c:if>
+                <c:if test="#{param['page'] == null}">
+                    <c:if test="#{navigation.currentPage != null}">
+                        <ui:include src="WEB-INF/pages/#{navigation.currentPage}.xhtml"/>
+                    </c:if>
                 </c:if>
             </h:panelGrid>
         </ui:define>
