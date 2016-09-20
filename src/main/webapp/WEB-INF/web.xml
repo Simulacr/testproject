@@ -41,4 +41,16 @@
         <param-name>wiki.baseURI.ru</param-name>
         <param-value>https://ru.wikipedia.org/w/api.php?</param-value>
     </context-param>
+    <context-param>
+        <param-name>wiki.cssURI.en</param-name>
+        <param-value>//en.wikipedia.org/w/load.php?modules=mediawiki.legacy.commonPrint,shared|mediawiki.skinning.elements|mediawiki.skinning.content|mediawiki.skinning.interface|skins.vector.styles|site|mediawiki.skinning.content.parsoid|ext.cite.style&amp;only=styles&amp;skin=vector</param-value>
+    </context-param>
+    <context-param>
+        <param-name>wiki.cssURI.ja</param-name>
+        <param-value>//ja.wikipedia.org/w/load.php?modules=mediawiki.legacy.commonPrint,shared|mediawiki.skinning.elements|mediawiki.skinning.content|mediawiki.skinning.interface|skins.vector.styles|site|mediawiki.skinning.content.parsoid|ext.cite.style&amp;only=styles&amp;skin=vector</param-value>
+    </context-param>
+    <context-param>
+        <param-name>wiki.cssURI.ru</param-name>
+        <param-value>//ru.wikipedia.org/w/load.php?modules=mediawiki.legacy.commonPrint,shared|mediawiki.skinning.elements|mediawiki.skinning.content|mediawiki.skinning.interface|skins.vector.styles|site|mediawiki.skinning.content.parsoid|ext.cite.style&amp;only=styles&amp;skin=vector</param-value>
+    </context-param>
 </web-app>

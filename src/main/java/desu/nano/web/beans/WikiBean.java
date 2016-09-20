@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -104,6 +105,11 @@ public class WikiBean implements Serializable {
                 return (T)value;
         }
         return (T)value;
+    }
+
+    public String getCssRef() {
+        return FacesContext.getCurrentInstance().getExternalContext().getInitParameter("wiki.cssURI." +
+                translator.getLocale().getLanguage());
     }
 
     public Article getCurrentArticle() {
