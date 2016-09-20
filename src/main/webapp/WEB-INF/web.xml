@@ -22,7 +22,15 @@
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
     <context-param>
-        <param-name>wiki.baseURI</param-name>
+        <param-name>wiki.baseURI.en</param-name>
         <param-value>https://en.wikipedia.org/w/api.php?</param-value>
+    </context-param>
+    <context-param>
+        <param-name>wiki.baseURI.ja</param-name>
+        <param-value>https://ja.wikipedia.org/w/api.php?</param-value>
+    </context-param>
+    <context-param>
+        <param-name>wiki.baseURI.ru</param-name>
+        <param-value>https://ru.wikipedia.org/w/api.php?</param-value>
     </context-param>
 </web-app>

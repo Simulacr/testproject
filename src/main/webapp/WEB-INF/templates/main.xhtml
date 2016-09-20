@@ -5,40 +5,68 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
     <h:outputStylesheet library="css" name="template.css"/>
     <h:outputScript library="js" name="common.js"/>
 </h:head>
 <f:view>
+    <h:panelGrid id="layout">
     <p:layout fullPage="true">
         <p:layoutUnit position="west" size="250">
-            <h:form>
-                <h:panelGrid columns="1">
-                    <p:outputLabel value="#{locution['Search']}"/>
-                    <p:inputText value="#{search.searchString}"/>
-                    <h:panelGrid columns="2">
-                        <p:commandButton actionListener="#{search.searching}" value="#{locution['Direct']}" update="content"/>
-                        <p:commandButton actionListener="#{search.searchingAndGo}" value="#{locution['Look_for']}" update="content"/>
+            <h:panelGrid>
+                <h:form id="menuForm">
+                    <h:panelGrid columns="1">
+                        <p:outputLabel value="#{locution['Search']}"/>
+                        <p:inputText value="#{search.searchString}"/>
+                        <h:panelGrid columns="2">
+                            <p:commandButton actionListener="#{search.searchingAndGo}" value="#{locution['Direct']}" update="content"/>
+                            <p:commandButton actionListener="#{search.searching}" value="#{locution['Look_for']}" update="content"/>
+                        </h:panelGrid>
                     </h:panelGrid>
-                </h:panelGrid>
 
-                <p:menu>
-                    <p:submenu label="#{locution['Navigation']}">
-                        <p:menuitem value="#{locution['Home_page']}" update="content"
-                                    actionListener="#{navigation.setCurrentPage('homePage')}"/>
-                        <p:menuitem value="#{locution['Random_page']}" update="content"
-                                    actionListener="#{navigation.setCurrentPage('randomPage')}"/>
-                    </p:submenu>
-                </p:menu>
-            </h:form>
+                    <p:menu id="menu">
+                        <p:submenu label="#{locution['Navigation']}">
+                            <p:menuitem value="#{locution['Home_page']}" update="content"
+                                        actionListener="#{navigation.setCurrentPage('homePage')}"/>
+                            <p:menuitem value="#{locution['Randomize']}" update="menu"
+                                        actionListener="#{wiki.onRandomPage}"/>
+                        </p:submenu>
+                        <p:submenu label="#{locution['Pages']}" id="randomPages">
+                            <c:forEach items="#{wiki.randomPages}" var="page">
+                                <p:menuitem value="#{page.title}" update="content"
+                                            actionListener="#{wiki.navigateToArticle(page.title)}"/>
+                            </c:forEach>
+                        </p:submenu>
+                        <p:submenu label="#{locution['Bookmarks']}">
+                            <c:forEach items="#{bookmark.bookmarks}" var="mark">
+                                <p:menuitem value="#{mark.header}" update="content"
+                                            actionListener="#{wiki.navigateToArticle(mark.header)}"/>
+                            </c:forEach>
+                        </p:submenu>
+                    </p:menu>
+                </h:form>
+            </h:panelGrid>
         </p:layoutUnit>
         <p:layoutUnit position="north" size="50">
-
+            <h:form>
+                <h:panelGrid columns="2" style="position: absolute; top: 0; right: 0; width: 200px; height: 20px"
+                        id="locutionCombobox">
+                    <p:menuButton value="#{translator.localeCode}" >
+                        <c:forEach items="#{translator.countries}" var="lang">
+                            <p:menuitem value="#{lang}" actionListener="#{wiki.changeLocution(lang)}"
+                                        update="menuForm, locutionCombobox, contentPanel"/>
+                        </c:forEach>
+                    </p:menuButton>
+                </h:panelGrid>
+            </h:form>
         </p:layoutUnit>
         <p:layoutUnit position="center" id="center">
-            <ui:insert name="content">!!!!EMPTY CONTENT!!!!!</ui:insert>
+            <h:panelGroup id="contentPanel">
+                <ui:insert name="content">!!!!EMPTY CONTENT!!!!!</ui:insert>
+            </h:panelGroup>
         </p:layoutUnit>
     </p:layout>
+    </h:panelGrid>
 </f:view>
 </html>

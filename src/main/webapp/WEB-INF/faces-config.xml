@@ -6,6 +6,8 @@
     <application>
         <locale-config>
             <default-locale>en</default-locale>
+            <supported-locale>ru</supported-locale>
+            <supported-locale>ja</supported-locale>
         </locale-config>
         <resource-bundle>
             <base-name>locution</base-name>

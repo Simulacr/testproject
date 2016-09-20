@@ -1,4 +1,4 @@
-package desu.nano.web.beans;
+package desu.nano.web.objects;
 
 import java.util.ArrayList;
 import java.util.List;

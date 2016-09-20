@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import java.util.Locale;
 
 /**
  * Created by Ker on 19.09.2016.
@@ -17,26 +18,33 @@ import javax.faces.context.FacesContext;
 public class RestClient {
     private transient Client client;
 
-    public String SERVICE_BASE_URI;
-
     @PostConstruct
     protected void initialize() {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        SERVICE_BASE_URI = fc.getExternalContext().getInitParameter("wiki.baseURI");
-
         client = Client.create();
     }
 
+    private String getServiceUri(String lang) {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        //TODO check if resource does no exist
+        return fc.getExternalContext().getInitParameter("wiki.baseURI." + lang);
+    }
+
+    private String getServiceUri() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Locale currentLocale = fc.getViewRoot().getLocale();
+        String lang = currentLocale == null ? "en" : currentLocale.getLanguage();
+        return getServiceUri(lang);
+    }
     public WebResource getWebResource(String relativeUrl) {
         if (client == null) {
             initialize();
         }
 
-        return client.resource(SERVICE_BASE_URI + relativeUrl);
+        return client.resource(getServiceUri() + relativeUrl);
     }
 
-    public ClientResponse clientGetResponse(String relativeUrl) {
-        WebResource webResource = client.resource(SERVICE_BASE_URI + relativeUrl);
+    public ClientResponse clientGetResponse(String lang, String relativeUrl) {
+        WebResource webResource = client.resource(getServiceUri(lang) + relativeUrl);
         webResource.header("Api-User-Agent", "Example/1.0");
         return webResource.accept("application/json").get(ClientResponse.class);
     }

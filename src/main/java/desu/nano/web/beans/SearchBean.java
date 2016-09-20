@@ -1,6 +1,7 @@
 package desu.nano.web.beans;
 
 import com.google.gson.Gson;
+import desu.nano.web.objects.SearchResult;
 import desu.nano.wiki.Action;
 import desu.nano.wiki.Format;
 
@@ -8,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ import java.util.List;
  */
 @ManagedBean(name = "search")
 @ViewScoped
-public class SearchBean {
+public class SearchBean implements Serializable{
     private String searchString;
     @ManagedProperty(value = "#{wiki}")
     private WikiBean wiki;
