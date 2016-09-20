@@ -12,8 +12,8 @@
     <p:dataGrid var="link" columns="1" rows="10" value="#{search.res.links}" id="linkGrid">
         <h:panelGrid columns="1">
             <h:panelGrid columns="2">
-                <p:commandLink actionListener="#{search.searching}" value="#{link.header}"
-                    styleClass="pageLink"/>
+                <p:commandLink actionListener="#{wiki.navigateToArticle(link.header)}" value="#{link.header}"
+                    styleClass="pageLink" update="content"/>
                 <p:commandButton icon="#{bookmark.isInBoolmarks(link.link) ?
                                             'ui-icon-close': 'ui-icon-star'}"
                                  style="height: 24px; width: 24px"
