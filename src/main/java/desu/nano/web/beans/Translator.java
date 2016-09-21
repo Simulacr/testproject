@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.Cookie;
 import java.io.Serializable;
 import java.util.*;
 
@@ -32,7 +33,8 @@ public class Translator implements Serializable {
 
     @PostConstruct
     public void init() {
-        final Locale currentLocale = Locale.ENGLISH ;
+        Cookie langCookie = (Cookie)FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap().get("lang");
+        final Locale currentLocale = langCookie == null ? Locale.ENGLISH : new Locale(langCookie.getValue());
         localeCode = countries.entrySet().stream().filter(stringLocaleEntry ->
                 currentLocale.getLanguage().equals(stringLocaleEntry.getValue().getLanguage())).
                 findFirst().get().getKey();
@@ -42,6 +44,10 @@ public class Translator implements Serializable {
         return countries.keySet();
     }
 
+    public String getLangCode(String country) {
+        return countries.get(country).getLanguage();
+    }
+
     public void onCountryChange(String newLocaleValue) {
         FacesContext.getCurrentInstance()
                 .getViewRoot().setLocale(countries.get(newLocaleValue));
@@ -49,7 +55,8 @@ public class Translator implements Serializable {
     }
 
     public void setLocaleCode(String localeCode) {
-        this.localeCode = localeCode;
+        if(countries.containsKey(localeCode))
+            this.localeCode = localeCode;
     }
 
     public Locale getLocale() {

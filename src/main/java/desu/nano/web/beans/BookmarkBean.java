@@ -1,19 +1,14 @@
 package desu.nano.web.beans;
 
-import desu.nano.web.objects.SearchResult;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.Cookie;
 import java.io.Serializable;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * Created by Ker on 20.09.2016.
@@ -22,39 +17,40 @@ import java.util.stream.Collectors;
 @SessionScoped
 public class BookmarkBean implements Serializable{
     private static final String COOKIE_NAME = "bookmarks";
-    private List<SearchResult.Link> bookmarks = new ArrayList<>();
-    Map<String, Object> properties = new HashMap<>();
+    private Set<String> bookmarks;
 
 
     @PostConstruct
     public void initCookie() {
         ExternalContext externalContext =
                 FacesContext.getCurrentInstance().getExternalContext();
-        externalContext.getRequestCookieMap();
-        properties.put("maxAge", 31536000);
-        properties.put("path", "/");
+        Cookie bookmarkCookie = (Cookie)externalContext.getRequestCookieMap().get("bookmarks");
+        if(bookmarkCookie != null)
+            bookmarks = new HashSet<>(Arrays.asList(bookmarkCookie.getValue().split(URLEncoder.encode(",,,"))));
+        else
+            bookmarks = new HashSet<>();
     }
 
-    public List<SearchResult.Link> getBookmarks() {
+    public Set<String> getBookmarks() {
         return bookmarks;
     }
 
-    public void setBookmarks(List<SearchResult.Link> bookmarks) {
+    public void setBookmarks(Set<String> bookmarks) {
         this.bookmarks = bookmarks;
     }
 
-    public void mark(SearchResult.Link link) {
+    public void mark(String link) {
         if(bookmarks.contains(link))
             bookmarks.remove(link);
         else
             bookmarks.add(link);
-        ExternalContext externalContext =
-                FacesContext.getCurrentInstance().getExternalContext();
-        String cookieValue = bookmarks.stream().map(b -> URLEncoder.encode(b.getLink())).collect(Collectors.joining(";"));
-        externalContext.addResponseCookie(COOKIE_NAME, cookieValue, properties);
     }
 
     public boolean isInBoolmarks(String link) {
-        return bookmarks.stream().anyMatch(b -> link.equals(b.getLink()));
+        return bookmarks.contains(link);
+    }
+
+    public String genBookmarkMethod(String link) {
+        return isInBoolmarks(link)? "removeBookmark('" + link + "');" : "addBookmark('" + link + "');";
     }
 }

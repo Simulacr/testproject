@@ -41,8 +41,8 @@
                         </p:submenu>
                         <p:submenu label="#{locution['Bookmarks']}">
                             <c:forEach items="#{bookmark.bookmarks}" var="mark">
-                                <p:menuitem value="#{mark.header}" update="content"
-                                            actionListener="#{wiki.navigateToArticle(mark.header)}"/>
+                                <p:menuitem value="#{mark}" update="content"
+                                            actionListener="#{wiki.navigateToArticle(mark)}"/>
                             </c:forEach>
                         </p:submenu>
                     </p:menu>
@@ -56,6 +56,7 @@
                     <p:menuButton value="#{translator.localeCode}" >
                         <c:forEach items="#{translator.countries}" var="lang">
                             <p:menuitem value="#{lang}" actionListener="#{wiki.changeLocution(lang)}"
+                                        onclick="saveCookie('lang', '#{translator.getLangCode(lang)}')"
                                         update="menuForm, locutionCombobox, contentPanel"/>
                         </c:forEach>
                     </p:menuButton>

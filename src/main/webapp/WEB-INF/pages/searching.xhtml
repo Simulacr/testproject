@@ -17,10 +17,11 @@
                 <p:commandButton icon="#{bookmark.isInBoolmarks(link.link) ?
                                             'ui-icon-close': 'ui-icon-star'}"
                                  style="height: 24px; width: 24px"
-                                 update="linkGrid" action="#{bookmark.mark(link)}">
+                                 onclick="#{bookmark.genBookmarkMethod(link.header)}"
+                                 update="menuForm, contentPanel" action="#{bookmark.mark(link.header)}">
                 </p:commandButton>
             </h:panelGrid>
-            <p:outputLabel value="#{link.title}" styleClass="pageDetails"/>
+            <p:outputLabel value="#{link.description}" styleClass="pageDetails"/>
         </h:panelGrid>
     </p:dataGrid>
 </f:view>

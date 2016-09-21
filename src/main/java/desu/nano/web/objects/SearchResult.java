@@ -36,12 +36,12 @@ public class SearchResult {
 
     public static class Link {
         private final String header;
-        private final String title;
+        private final String description;
         private final String link;
 
-        private Link(String header, String title, String link) {
+        private Link(String header, String description, String link) {
             this.header = header;
-            this.title = title;
+            this.description = description;
             this.link = link;
         }
 
@@ -49,8 +49,8 @@ public class SearchResult {
             return header;
         }
 
-        public String getTitle() {
-            return title;
+        public String getDescription() {
+            return description;
         }
 
         public String getLink() {
