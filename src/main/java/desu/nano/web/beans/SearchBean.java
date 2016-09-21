@@ -50,10 +50,6 @@ public class SearchBean implements Serializable{
         }
     }
 
-    public void searchingAndGo(ActionEvent actionEvent) {
-
-    }
-
     public void setWiki(WikiBean wiki) {
         this.wiki = wiki;
     }

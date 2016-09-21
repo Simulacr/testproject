@@ -8,15 +8,18 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <f:view>
     <c:if test="#{wiki.currentArticle != null}">
-        <h:panelGrid columns="2">
-            <h:outputLabel value="#{wiki.currentArticle.title}"/>
-            <p:commandButton icon="#{wiki.currentArticle.title ?
-                                            'ui-icon-close': 'ui-icon-star'}"
-                             style="height: 24px; width: 24px"
-                             update="@all" action="#{bookmark.mark(wiki.currentArticle.title)}">
-            </p:commandButton>
-        </h:panelGrid>
-        <h:outputText value="#{wiki.currentArticle.content}" escape="false"/>
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{wiki.currentArticle.title}"/>
+                <p:commandButton icon="#{bookmark.isInBoolmarks(wiki.currentArticle.title) ?
+                                                'ui-icon-close': 'ui-icon-star'}"
+                                 style="height: 24px; width: 24px"
+                                 onclick="#{bookmark.genBookmarkMethod(wiki.currentArticle.title)}"
+                                 update="menuForm, contentPanel" action="#{bookmark.mark(wiki.currentArticle.title)}">
+                </p:commandButton>
+            </h:panelGrid>
+            <h:outputText value="#{wiki.currentArticle.content}" escape="false"/>
+        </h:form>
     </c:if>
 </f:view>
 </html>

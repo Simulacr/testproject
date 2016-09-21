@@ -1,14 +1,17 @@
 package desu.nano.web.beans;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
 import java.io.Serializable;
-import java.net.URLEncoder;
-import java.util.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Ker on 20.09.2016.
@@ -21,12 +24,17 @@ public class BookmarkBean implements Serializable{
 
 
     @PostConstruct
-    public void initCookie() {
-        ExternalContext externalContext =
-                FacesContext.getCurrentInstance().getExternalContext();
-        Cookie bookmarkCookie = (Cookie)externalContext.getRequestCookieMap().get(COOKIE_NAME);
+    public void initCookie(){
+        FacesContext fc =
+                FacesContext.getCurrentInstance();
+        Cookie bookmarkCookie = (Cookie)fc.getExternalContext().getRequestCookieMap().get(COOKIE_NAME);
         if(bookmarkCookie != null)
-            bookmarks = new HashSet<>(Arrays.asList(bookmarkCookie.getValue().split(URLEncoder.encode(",,,"))));
+            try {
+                bookmarks = new HashSet<>(Arrays.asList(URLDecoder.decode(bookmarkCookie.getValue(), "UTF-8").split(",,,")));
+            } catch (UnsupportedEncodingException ex) {
+                fc.addMessage(null, new FacesMessage("Warning", "Bookmarks cookie was broken. Bookmarks will be resetted"));
+                bookmarks = new HashSet<>();
+            }
         else
             bookmarks = new HashSet<>();
     }

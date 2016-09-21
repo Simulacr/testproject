@@ -92,13 +92,19 @@ public class WikiBean implements Serializable {
                     "prop=text", "page=" + URLEncoder.encode(title, "UTF-8"));
             Map<String, Object> jsonMap = new Gson().fromJson(response, Map.class);
 
-            String content = this.<Map<String, Object>>extract(jsonMap, "parse", "text").get("*").toString();
-            if (response == null || response.isEmpty())
-                currentArticle = Article.empty();
-            else {
-                currentArticle = new Article(title, content, 0);
+            if(jsonMap.containsKey("error")) {
+                Map<String, Object> errorInfo = extract(jsonMap, "error");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(errorInfo.get("code").toString(),
+                        errorInfo.get("info").toString()));
+            } else {
+                String content = this.<Map<String, Object>>extract(jsonMap, "parse", "text").get("*").toString();
+                if (response == null || response.isEmpty())
+                    currentArticle = Article.empty();
+                else {
+                    currentArticle = new Article(title, content, 0);
+                }
+                navigationBean.setCurrentPage("article");
             }
-            navigationBean.setCurrentPage("article");
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getClass().getSimpleName(),
                     ex.getMessage()));

@@ -14,7 +14,7 @@
             <h:panelGrid columns="2">
                 <p:commandLink actionListener="#{wiki.navigateToArticle(link.header)}" value="#{link.header}"
                     styleClass="pageLink" update="content"/>
-                <p:commandButton icon="#{bookmark.isInBoolmarks(link.link) ?
+                <p:commandButton icon="#{bookmark.isInBoolmarks(link.header) ?
                                             'ui-icon-close': 'ui-icon-star'}"
                                  style="height: 24px; width: 24px"
                                  onclick="#{bookmark.genBookmarkMethod(link.header)}"

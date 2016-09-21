@@ -14,7 +14,7 @@
 <f:view>
     <h:panelGrid id="layout">
     <p:layout fullPage="true">
-        <p:layoutUnit position="west" size="250">
+        <p:layoutUnit position="west" size="250" style="overflow-x: hidden">
             <h:panelGrid>
                 <h:form id="menuForm">
                     <h:panelGrid columns="1">
@@ -22,7 +22,7 @@
                         <p:inputText value="#{search.searchString}"/>
                         <h:panelGrid columns="2" style="width: 100%">
                             <p:commandButton actionListener="#{wiki.navigateToArticle(search.searchString)}"
-                                             value="#{locution['Direct']}" update="content" styleClass="search-button"/>
+                                             value="#{locution['Direct']}" update="content, error" styleClass="search-button"/>
                             <p:commandButton actionListener="#{search.searching}" value="#{locution['Look_for']}"
                                              update="content" styleClass="search-button"/>
                         </h:panelGrid>
@@ -43,7 +43,7 @@
                         </p:submenu>
                         <p:submenu label="#{locution['Bookmarks']}">
                             <c:forEach items="#{bookmark.bookmarks}" var="mark">
-                                <p:menuitem value="#{mark}" update="content"
+                                <p:menuitem value="#{mark}" update="content, error"
                                             actionListener="#{wiki.navigateToArticle(mark)}"/>
                             </c:forEach>
                         </p:submenu>
