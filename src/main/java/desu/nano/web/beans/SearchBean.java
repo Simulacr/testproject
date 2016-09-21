@@ -5,9 +5,11 @@ import desu.nano.web.objects.SearchResult;
 import desu.nano.wiki.Action;
 import desu.nano.wiki.Format;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import java.io.Serializable;
 import java.util.List;
@@ -34,11 +36,16 @@ public class SearchBean implements Serializable{
     }
 
     public void searching(ActionEvent actionEvent) {
-        String response = wiki.performAction(Action.opensearch.getQuery(), Format.json.getQuery(),
-                "search=" + searchString);
-        List<Object> jsonArray = (List<Object>)new Gson().fromJson(response, Object.class);
-        res = new SearchResult((String)jsonArray.get(0), (List<String>)jsonArray.get(1), (List<String>)jsonArray.get(2), (List<String>)jsonArray.get(3));
-        navigationBean.setCurrentPage("searching");
+        try {
+            String response = wiki.performAction(Action.opensearch.getQuery(), Format.json.getQuery(),
+                    "search=" + searchString);
+            List<Object> jsonArray = (List<Object>) new Gson().fromJson(response, Object.class);
+            res = new SearchResult((String) jsonArray.get(0), (List<String>) jsonArray.get(1), (List<String>) jsonArray.get(2), (List<String>) jsonArray.get(3));
+            navigationBean.setCurrentPage("searching");
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getClass().getSimpleName(),
+                    ex.getMessage()));
+        }
     }
 
     public void searchingAndGo(ActionEvent actionEvent) {

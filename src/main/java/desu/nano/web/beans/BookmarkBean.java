@@ -24,7 +24,7 @@ public class BookmarkBean implements Serializable{
     public void initCookie() {
         ExternalContext externalContext =
                 FacesContext.getCurrentInstance().getExternalContext();
-        Cookie bookmarkCookie = (Cookie)externalContext.getRequestCookieMap().get("bookmarks");
+        Cookie bookmarkCookie = (Cookie)externalContext.getRequestCookieMap().get(COOKIE_NAME);
         if(bookmarkCookie != null)
             bookmarks = new HashSet<>(Arrays.asList(bookmarkCookie.getValue().split(URLEncoder.encode(",,,"))));
         else

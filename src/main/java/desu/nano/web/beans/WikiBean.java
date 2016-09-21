@@ -9,6 +9,7 @@ import desu.nano.wiki.Format;
 import desu.nano.wiki.RestClient;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -48,7 +49,8 @@ public class WikiBean implements Serializable {
                 query);
 
         if (response.getStatus() != 200) {
-            throw new RuntimeException("Failed service call: HTTP error code : " + response.getStatus());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(String.valueOf(response.getStatus()),
+                    "Failed service call: HTTP error code"));
         }
 
         return response.getEntity(String.class);
@@ -56,11 +58,16 @@ public class WikiBean implements Serializable {
 
 
     public void randomizePages() {
-        String response = performAction(Action.query.getQuery(), Format.json.getQuery(),
-                "list=random", "rnlimit=10", "rnnamespace=0");
-        Map<String, Object> jsonMap = new Gson().fromJson(response, Map.class);
-        List<Map> randomPages = ((Map<String, List<Map>>)jsonMap.get("query")).get("random");
-        this.randomPages = randomPages.stream().map(i -> new ShortLink(i.get("title").toString())).collect(Collectors.toList());
+        try {
+            String response = performAction(Action.query.getQuery(), Format.json.getQuery(),
+                    "list=random", "rnlimit=10", "rnnamespace=0");
+            Map<String, Object> jsonMap = new Gson().fromJson(response, Map.class);
+            List<Map> randomPages = extract(jsonMap, "query", "random");// (Map<String, List<Map>>) jsonMap.get("query")).get("random");
+            this.randomPages = randomPages.stream().map(i -> new ShortLink(i.get("title").toString())).collect(Collectors.toList());
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getClass().getSimpleName(),
+                    ex.getMessage()));
+        }
     }
 
 
@@ -80,17 +87,23 @@ public class WikiBean implements Serializable {
     }
 
     public String navigateToArticle(String title) throws UnsupportedEncodingException {
-        String response = performAction(Action.parse.getQuery(), Format.json.getQuery(), "section=0",
-                "prop=text", "page="+ URLEncoder.encode(title, "UTF-8"));
-        Map<String, Object> jsonMap = new Gson().fromJson(response, Map.class);
-        navigationBean.setCurrentPage("article");
-        String content = this.<Map<String, Object>>extract(jsonMap, "parse", "text").get("*").toString();
-        if(response == null || response.isEmpty())
-            currentArticle = Article.empty();
-        else {
-            currentArticle = new Article(title, content, 0);
+        try {
+            String response = performAction(Action.parse.getQuery(), Format.json.getQuery(), "section=0",
+                    "prop=text", "page=" + URLEncoder.encode(title, "UTF-8"));
+            Map<String, Object> jsonMap = new Gson().fromJson(response, Map.class);
+
+            String content = this.<Map<String, Object>>extract(jsonMap, "parse", "text").get("*").toString();
+            if (response == null || response.isEmpty())
+                currentArticle = Article.empty();
+            else {
+                currentArticle = new Article(title, content, 0);
+            }
+            navigationBean.setCurrentPage("article");
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getClass().getSimpleName(),
+                    ex.getMessage()));
         }
-        return "article";
+        return navigationBean.getCurrentPage();
     }
 
 
