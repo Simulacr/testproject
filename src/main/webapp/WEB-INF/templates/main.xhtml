@@ -20,9 +20,11 @@
                     <h:panelGrid columns="1">
                         <p:outputLabel value="#{locution['Search']}"/>
                         <p:inputText value="#{search.searchString}"/>
-                        <h:panelGrid columns="2">
-                            <p:commandButton actionListener="#{wiki.navigateToArticle(search.searchString)}" value="#{locution['Direct']}" update="content"/>
-                            <p:commandButton actionListener="#{search.searching}" value="#{locution['Look_for']}" update="content"/>
+                        <h:panelGrid columns="2" style="width: 100%">
+                            <p:commandButton actionListener="#{wiki.navigateToArticle(search.searchString)}"
+                                             value="#{locution['Direct']}" update="content" styleClass="search-button"/>
+                            <p:commandButton actionListener="#{search.searching}" value="#{locution['Look_for']}"
+                                             update="content" styleClass="search-button"/>
                         </h:panelGrid>
                     </h:panelGrid>
 
@@ -51,9 +53,10 @@
         </p:layoutUnit>
         <p:layoutUnit position="north" size="50">
             <h:form>
-                <h:panelGrid columns="2" style="position: absolute; top: 0; right: 0; width: 200px; height: 20px"
+                <h:panelGrid columns="2" style="position: absolute; top: 0; right: 0; width: 160px; height: 20px"
                         id="locutionCombobox">
-                    <p:menuButton value="#{translator.localeCode}" >
+                    <p:commandButton value="Log in" disabled="true" style="width: 100%; font-size: 12px"/>
+                    <p:menuButton value="#{translator.localeCode}" style="width: 100%; font-size: 12px">
                         <c:forEach items="#{translator.countries}" var="lang">
                             <p:menuitem value="#{lang}" actionListener="#{wiki.changeLocution(lang)}"
                                         onclick="saveCookie('lang', '#{translator.getLangCode(lang)}')"
