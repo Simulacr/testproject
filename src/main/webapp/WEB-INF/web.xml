@@ -30,6 +30,10 @@
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
     <context-param>
+        <param-name>default.lang</param-name>
+        <param-value>en</param-value>
+    </context-param>
+    <context-param>
         <param-name>wiki.baseURI.en</param-name>
         <param-value>https://en.wikipedia.org/w/api.php?</param-value>
     </context-param>

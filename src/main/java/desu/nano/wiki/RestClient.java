@@ -17,10 +17,12 @@ import java.util.Locale;
 @SessionScoped
 public class RestClient {
     private transient Client client;
+    private String defaultLang;
 
     @PostConstruct
     protected void initialize() {
         client = Client.create();
+        defaultLang = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("default.lang");
     }
 
     private String getServiceUri(String lang) {
@@ -32,7 +34,7 @@ public class RestClient {
     private String getServiceUri() {
         FacesContext fc = FacesContext.getCurrentInstance();
         Locale currentLocale = fc.getViewRoot().getLocale();
-        String lang = currentLocale == null ? "en" : currentLocale.getLanguage();
+        String lang = currentLocale == null ? defaultLang : currentLocale.getLanguage();
         return getServiceUri(lang);
     }
     public WebResource getWebResource(String relativeUrl) {
