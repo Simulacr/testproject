@@ -3,9 +3,16 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:view>
-    <h:outputLabel value="Random page"/>
+    <h1 style="width: 100%; font-size: 20px">#{locution['Welcome']}</h1>
+    <h:outputLabel value="#{locution['Home_page_description']}"/>
+    <h:outputLabel value="#{locution['List_of_technologies']}"/>
+    <ul>
+        <li>Java</li>
+        <li>JSF</li>
+        <li>J2EE</li>
+        <li>Jersey REST Client</li>
+    </ul>
 </f:view>
 </html>

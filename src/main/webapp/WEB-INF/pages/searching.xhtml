@@ -6,8 +6,10 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:view locale="#{translator.locale}">
-    <h:outputLabel value="#{locution['Search_result_for']}"/>
-    <h:outputLabel value="#{search.searchString}" style="color:#a80000; font-style: italic"/>
+    <h:panelGrid columns="2">
+        <h:outputLabel value="#{locution['Search_result_for']}"/>
+        <h:outputLabel value="#{search.searchString}" style="color:#a80000; font-style: italic"/>
+    </h:panelGrid>
     <br/>
     <p:dataGrid var="link" columns="1" rows="10" value="#{search.res.links}" id="linkGrid">
         <h:panelGrid columns="1">

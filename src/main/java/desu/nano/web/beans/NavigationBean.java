@@ -1,5 +1,6 @@
 package desu.nano.web.beans;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -10,6 +11,11 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class NavigationBean {
     private String currentPage;
+
+    @PostConstruct
+    public void init() {
+        currentPage = "homePage";
+    }
 
     public String getCurrentPage() {
         return currentPage;
