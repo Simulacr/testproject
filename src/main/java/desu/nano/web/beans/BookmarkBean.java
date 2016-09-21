@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Bean that manages wiki bookmarks
+ *
  * Created by Ker on 20.09.2016.
  */
 @ManagedBean(name = "bookmark")
@@ -23,6 +25,10 @@ public class BookmarkBean implements Serializable{
     private Set<String> bookmarks;
 
 
+    /*
+        Read bookmark cookies on session initialization.
+        Display warning message if cookie cannot be readed.
+     */
     @PostConstruct
     public void initCookie(){
         FacesContext fc =
@@ -47,6 +53,9 @@ public class BookmarkBean implements Serializable{
         this.bookmarks = bookmarks;
     }
 
+    /**
+     * @param link - mark/unmark bookmark
+     */
     public void mark(String link) {
         if(bookmarks.contains(link))
             bookmarks.remove(link);

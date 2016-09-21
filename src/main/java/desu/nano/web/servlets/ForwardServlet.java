@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
+ * This servlet catch request with path '/wiki/', transform it path to GET-param and redirect it to main page
+ *
  * Created by Ker on 20.09.2016.
  */
 public class ForwardServlet extends HttpServlet {

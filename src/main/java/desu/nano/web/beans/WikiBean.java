@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
+ * Bean for working with WIKI API
+ *
  * Created by Ker on 19.09.2016.
  */
 @ManagedBean(name = "wiki")
@@ -43,6 +45,10 @@ public class WikiBean implements Serializable {
         randomizePages();
     }
 
+    /**
+     * @param params for request to WIKI
+     * @return read response
+     */
     public String performAction(String... params) {
         String query = String.join("&", params);
         ClientResponse response = restClient.clientGetResponse(translator.getLocale().getLanguage(),
@@ -57,6 +63,9 @@ public class WikiBean implements Serializable {
     }
 
 
+    /**
+     * Sends request to WIKI for 10 random pages and display it
+     */
     public void randomizePages() {
         try {
             String response = performAction(Action.query.getQuery(), Format.json.getQuery(),
@@ -69,8 +78,6 @@ public class WikiBean implements Serializable {
                     ex.getMessage()));
         }
     }
-
-
 
     public List<ShortLink> getRandomPages() {
         return randomPages;
@@ -86,6 +93,10 @@ public class WikiBean implements Serializable {
         navigationBean.setCurrentPage("homePage");
     }
 
+    /**
+     * @param title for WIKI request. If page exists page content will be generated
+     * @return page for navigation
+     */
     public String navigateToArticle(String title) throws UnsupportedEncodingException {
         try {
             String response = performAction(Action.parse.getQuery(), Format.json.getQuery(), "section=0",
@@ -126,6 +137,9 @@ public class WikiBean implements Serializable {
         return (T)value;
     }
 
+    /**
+     * @return generated WIKI CSS reference based on current language
+     */
     public String getCssRef() {
         return FacesContext.getCurrentInstance().getExternalContext().getInitParameter("wiki.cssURI." +
                 translator.getLocale().getLanguage());

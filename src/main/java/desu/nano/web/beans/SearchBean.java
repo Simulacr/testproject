@@ -16,6 +16,8 @@ import java.net.URLEncoder;
 import java.util.List;
 
 /**
+ * Bean for business logic, grants possibility to use WIKI Rest client for searching
+ *
  * Created by Ker on 19.09.2016.
  */
 @ManagedBean(name = "search")

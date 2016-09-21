@@ -5,6 +5,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 /**
+ * Bean for keeping current page. Can be autowired by another bean.
+ *
  * Created by Ker on 19.09.2016.
  */
 @ManagedBean(name = "navigation")

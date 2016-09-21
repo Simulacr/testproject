@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
+ * Bean for storing current locale
+ *
  * Created by Ker on 19.09.2016.
  */
 @ManagedBean(name = "translator")
@@ -23,14 +25,14 @@ public class Translator implements Serializable {
         countries.put("Русский", new Locale("ru", "RU"));
         countries = Collections.unmodifiableMap(countries);
     }
-    public String translate(String source) {
-        return source;
-    }
 
     public String getLocaleCode() {
         return localeCode;
     }
 
+    /**
+     * Read saved cookie from request when session is created
+     */
     @PostConstruct
     public void init() {
         Cookie langCookie = (Cookie)FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap().get("lang");

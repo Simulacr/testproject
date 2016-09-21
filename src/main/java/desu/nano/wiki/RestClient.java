@@ -11,6 +11,8 @@ import javax.faces.context.FacesContext;
 import java.util.Locale;
 
 /**
+ * Simple rest client that is used as proxy to WIKI API
+ *
  * Created by Ker on 19.09.2016.
  */
 @ManagedBean
@@ -25,12 +27,18 @@ public class RestClient {
         defaultLang = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("default.lang");
     }
 
+    /**
+     * @return URI specified by language code
+     */
     private String getServiceUri(String lang) {
         FacesContext fc = FacesContext.getCurrentInstance();
         //TODO check if resource does no exist
         return fc.getExternalContext().getInitParameter("wiki.baseURI." + lang);
     }
 
+    /**
+     * @return URI specified for default language
+     */
     private String getServiceUri() {
         FacesContext fc = FacesContext.getCurrentInstance();
         Locale currentLocale = fc.getViewRoot().getLocale();
@@ -45,6 +53,10 @@ public class RestClient {
         return client.resource(getServiceUri() + relativeUrl);
     }
 
+    /**
+     *
+     * Retrieve response by specified language and url
+     */
     public ClientResponse clientGetResponse(String lang, String relativeUrl) {
         WebResource webResource = client.resource(getServiceUri(lang) + relativeUrl);
         webResource.header("Api-User-Agent", "Example/1.0");
