@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import java.io.Serializable;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -38,9 +39,10 @@ public class SearchBean implements Serializable{
     public void searching(ActionEvent actionEvent) {
         try {
             String response = wiki.performAction(Action.opensearch.getQuery(), Format.json.getQuery(),
-                    "search=" + searchString);
+                    "search=" + URLEncoder.encode(searchString, "UTF-8"));
             List<Object> jsonArray = (List<Object>) new Gson().fromJson(response, Object.class);
-            res = new SearchResult((String) jsonArray.get(0), (List<String>) jsonArray.get(1), (List<String>) jsonArray.get(2), (List<String>) jsonArray.get(3));
+            res = new SearchResult((String) jsonArray.get(0), (List<String>) jsonArray.get(1),
+                    (List<String>) jsonArray.get(2), (List<String>) jsonArray.get(3));
             navigationBean.setCurrentPage("searching");
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getClass().getSimpleName(),
