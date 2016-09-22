@@ -5,11 +5,11 @@ body {
     border: inherit;
     background: inherit;
 }
-.pageDetails {
-    font-size: 14px !important;
+.ui-widget .pageDetails {
+    font-size: 14px;
 }
-.pageLink {
-    color: blue !important;
+.ui-widget .pageLink {
+    color: blue;
 }
 .ui-menuitem-link {
     font-size: 12px !important;
@@ -22,4 +22,11 @@ body {
 .ui-widget .search-button {
     width: 100%;
     font-size: 14px;
+}
+.ui-widget .bookmark-btn {
+    height: 24px;
+    width: 24px
+}
+.bookmark-btn > .ui-button-text {
+    padding: 0 !important;
 }
