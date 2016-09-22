@@ -19,7 +19,7 @@
                         styleClass="pageLink" update="content"/>
                     <p:commandButton icon="#{bookmark.isInBoolmarks(link.header) ?
                                                 'ui-icon-close': 'ui-icon-star'}"
-                                     style="height: 24px; width: 24px"
+                                     styleClass="bookmark-btn"
                                      onclick="#{bookmark.genBookmarkMethod(link.header)}"
                                      update="menuForm, contentPanel" action="#{bookmark.mark(link.header)}">
                     </p:commandButton>
