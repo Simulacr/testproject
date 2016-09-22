@@ -21,7 +21,8 @@ import java.util.Set;
 @ManagedBean(name = "bookmark")
 @SessionScoped
 public class BookmarkBean implements Serializable{
-    private static final String COOKIE_NAME = "bookmarks";
+    protected static final String COOKIE_NAME = "bookmarks";
+    protected static final String COOKIE_SPLITTER = ",,,";
     private Set<String> bookmarks;
 
 
@@ -36,7 +37,8 @@ public class BookmarkBean implements Serializable{
         Cookie bookmarkCookie = (Cookie)fc.getExternalContext().getRequestCookieMap().get(COOKIE_NAME);
         if(bookmarkCookie != null)
             try {
-                bookmarks = new HashSet<>(Arrays.asList(URLDecoder.decode(bookmarkCookie.getValue(), "UTF-8").split(",,,")));
+                bookmarks = new HashSet<>(Arrays.asList(URLDecoder.decode(bookmarkCookie.getValue(), "UTF-8").
+                        split(COOKIE_SPLITTER)));
             } catch (UnsupportedEncodingException ex) {
                 fc.addMessage(null, new FacesMessage("Warning", "Bookmarks cookie was broken. Bookmarks will be resetted"));
                 bookmarks = new HashSet<>();
